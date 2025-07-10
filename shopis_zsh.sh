@@ -24,7 +24,8 @@ shopis() {
       return 1
     fi
 
-    read -q "❗ Are you sure you want to remove '$store_to_remove'? (y/n): " confirm
+    read -q "confirm?❗ Are you sure you want to remove '$store_to_remove'? (y/n): "
+    echo  # Add newline after read -q
     if [ "$confirm" != "y" ]; then
       echo "🚫 Removal cancelled."
       return 1
@@ -60,7 +61,7 @@ shopis() {
     fi
 
     if [ "$selected_store" = "➕ Add a new store" ]; then
-      read -q "➕ Enter new Shopify store handle (e.g., asfir-4x4-il): " new_store
+      read "new_store?➕ Enter new Shopify store handle (e.g., asfir-4x4-il): "
       if [ -z "$new_store" ]; then
         echo "❌ No store entered. Exiting."
         return 1

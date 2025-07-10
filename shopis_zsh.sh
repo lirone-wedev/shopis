@@ -1,3 +1,4 @@
+# This file is for Zsh shell
 shopis() {
   store_file="$HOME/shopis_stores.json"
 
@@ -23,7 +24,7 @@ shopis() {
       return 1
     fi
 
-    read -p "❗ Are you sure you want to remove '$store_to_remove'? (y/n): " confirm
+    read -q "❗ Are you sure you want to remove '$store_to_remove'? (y/n): " confirm
     if [ "$confirm" != "y" ]; then
       echo "🚫 Removal cancelled."
       return 1
@@ -49,9 +50,9 @@ shopis() {
     # Interactive mode with fzf
     stores=$(jq -r '.[]' "$store_file")
     store_count=$(jq length "$store_file")
-    options=$(echo -e "$stores\n➕ Add a new store")
+    store_options=$(echo -e "$stores\n➕ Add a new store")
 
-    selected_store=$(echo "$options" | fzf --no-info --prompt="Select Shopify store ($store_count saved) > ")
+    selected_store=$(echo "$store_options" | fzf --no-info --prompt="Select Shopify store ($store_count saved) > ")
 
     if [ -z "$selected_store" ]; then
       echo "❌ No store selected. Exiting."
@@ -59,7 +60,7 @@ shopis() {
     fi
 
     if [ "$selected_store" = "➕ Add a new store" ]; then
-      read -p "➕ Enter new Shopify store handle (e.g., asfir-4x4-il): " new_store
+      read -q "➕ Enter new Shopify store handle (e.g., asfir-4x4-il): " new_store
       if [ -z "$new_store" ]; then
         echo "❌ No store entered. Exiting."
         return 1
@@ -82,4 +83,4 @@ shopipull() {
   else
     shopify theme pull --store="$1.myshopify.com" -d
   fi
-}
+} 
